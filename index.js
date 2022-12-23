@@ -32,16 +32,26 @@ const client = new MongoClient(uri, {
 
 // collections start
 const sectorsCollection = client.db("taskHK").collection("sectors");
+const usersCollection = client.db("taskHK").collection("users");
 // collections end
 
 // mongo DB run function start
 const run = async () => {
   try {
+    // get all sectors API start
     app.get("/sectors", async (req, res) => {
       const query = {};
       const sectors = await sectorsCollection.find(query).toArray();
       res.send(sectors);
     });
+    // get all sectors API end
+    // post users data API start
+    app.post("/user", async (req, res) => {
+      const userData = req.body;
+      const result = await usersCollection.insertOne(userData);
+      res.send(result);
+    });
+    // post users data API end
   } finally {
     // console.log();
   }
